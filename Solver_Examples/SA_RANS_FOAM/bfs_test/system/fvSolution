@@ -1,0 +1,113 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(p|p1|p2|p3|p4)"
+    {
+        solver          GAMG;
+        tolerance       1e-06;
+        relTol          0.01;
+        smoother        DICGaussSeidel;
+    }
+
+    "(U|U1|U2|U3|U4|k|epsilon|nuTilda|nuTilda1|omega)"
+    {
+        solver          PBiCG;//smoothSolver;
+	preconditioner  DILU;
+        //smoother      symGaussSeidel;
+        tolerance       1e-08;
+        relTol          0.01;
+    }
+
+    "(Phi|Phi1|Phi2|Phi3|Phi4)"
+    {
+        solver          GAMG;
+        smoother        DIC;
+
+        tolerance       1e-06;
+        relTol          0.01;
+    }
+}
+
+SIMPLE
+{
+    nNonOrthogonalCorrectors 0;
+    consistent      yes;
+    pRefCell        0;
+    pRefValue       0;
+    p1RefCell        0;
+    p1RefValue       0;
+    p2RefCell        0;
+    p2RefValue       0;
+    p3RefCell        0;
+    p3RefValue       0;
+    p4RefCell        0;
+    p4RefValue       0;
+
+    residualControl
+    {
+        p               1e-3;
+        U               1e-6;
+        p1               1e-3;
+        U1               1e-6;
+        p2               1e-3;
+        U2               1e-6;
+        p3               1e-3;
+        U3               1e-6;
+        p4               1e-3;
+        U4               1e-6;
+
+//        "(k|nuTilda|epsilon|omega|f|v2)" 1e-5;
+    }
+}
+
+relaxationFactors
+{
+    fields
+    {
+	p 	0.7;	
+	p1 	0.6;	
+        p2 	0.6;	
+	p3 	0.6;	
+	p4 	0.6;	
+	p5 	0.6;	
+
+    }	
+
+    equations
+    {
+        U               0.9; //0.9
+        U1               0.9; //0.9
+        U2               0.9; //0.9
+        U3               0.9; //0.9
+        U4               0.9; //0.9
+      //  nuTilda		0.3;
+      //  nut                    0.3;
+	
+	".*"            0.3; //0.7
+    }
+}
+
+potentialFlow
+{
+    nNonOrthogonalCorrectors 3;
+}
+
+
+// ************************************************************************* //
+

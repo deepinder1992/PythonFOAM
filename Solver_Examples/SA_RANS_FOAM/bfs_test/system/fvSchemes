@@ -1,0 +1,91 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+ddtSchemes
+{
+    default         steadyState;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+    grad(p)         Gauss linear;
+}
+
+divSchemes
+{
+    //default         Gauss linear;
+    div(phi,U)      bounded Gauss LUST grad(U);
+    div(phi,nuTilda) bounded Gauss linearUpwind grad(nuTilda);
+    div(U)          Gauss linear;
+    div((nuef*dev2(T(grad(U))))) Gauss linear;
+    
+    div(phi1,U1)      bounded Gauss LUST grad(U1);
+    div(phi1,nuTilda) bounded Gauss linearUpwind grad(nuTilda1);
+    div(U1)          Gauss linear;
+    div((nuef1*dev2(T(grad(U1))))) Gauss linear;
+    
+    div(phi2,U2)      bounded Gauss LUST grad(U2);
+    div(phi2,nuTilda) bounded Gauss linearUpwind grad(nuTilda2);
+    div(U2)          Gauss linear;
+    div((nuef2*dev2(T(grad(U2))))) Gauss linear;
+    
+    div(phi3,U3)      bounded Gauss LUST grad(U3);
+    div(phi3,nuTilda) bounded Gauss linearUpwind grad(nuTilda3);
+    div(U3)          Gauss linear;
+    div((nuef3*dev2(T(grad(U3))))) Gauss linear;
+    
+    div(phi4,U4)      bounded Gauss LUST grad(U4);
+    div(phi4,nuTilda) bounded Gauss linearUpwind grad(nuTilda4);
+    div(U4)          Gauss linear;
+    div((nuef4*dev2(T(grad(U4))))) Gauss linear;
+    div((nuEff*dev2(T(grad(U))))) Gauss linear;
+
+
+
+
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+    //U 	             linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+fluxRequired
+{
+pp;
+}
+wallDist
+{
+    method meshWave;
+}
+
+
+
+// ************************************************************************* //
+
